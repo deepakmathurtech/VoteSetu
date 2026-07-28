@@ -11,7 +11,7 @@ class Block:
         self.data = data
         self.previous_hash = previous_hash
 
-        # The block calculates its own hash
+        # Calculate hash when block is created
         self.block_hash = self.calculate_hash()
 
     def calculate_hash(self):
@@ -28,11 +28,15 @@ class Block:
         return hashlib.sha256(block_string.encode()).hexdigest()
 
 
+# -----------------------------
+# Blockchain (Temporary Storage)
+# -----------------------------
+
 blocks = []
 
 for i in range(3):
 
-    print(f"\n------ Block {i} ------")
+    print(f"\n--------- Block {i} ---------")
 
     data = input("Enter Data : ")
 
@@ -46,6 +50,40 @@ for i in range(3):
     blocks.append(block)
 
 
+# -----------------------------
+# Blockchain Validator
+# -----------------------------
+
+print("\nChecking Blockchain...\n")
+
+is_valid = True
+
+for i in range(1, len(blocks)):
+
+    current = blocks[i]
+    previous = blocks[i - 1]
+
+    # Check if current block has been modified
+    if current.block_hash != current.calculate_hash():
+        print(f"❌ Block {current.index} has been modified.")
+        is_valid = False
+        break
+
+    # Check if chain connection is broken
+    if current.previous_hash != previous.block_hash:
+        print(f"❌ Chain is broken between Block {previous.index} and Block {current.index}")
+        is_valid = False
+        break
+
+
+if is_valid:
+    print("✅ Blockchain Verified Successfully")
+
+
+# -----------------------------
+# Display Blockchain
+# -----------------------------
+
 print("\n=========== BLOCKCHAIN ===========\n")
 
 for block in blocks:
@@ -55,5 +93,4 @@ for block in blocks:
     print(f"Data           : {block.data}")
     print(f"Previous Hash  : {block.previous_hash}")
     print(f"Current Hash   : {block.block_hash}")
-
     print("-" * 60)
