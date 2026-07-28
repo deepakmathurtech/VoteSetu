@@ -1,38 +1,7 @@
-import hashlib
-import json
-from datetime import datetime
+from block import Block
+from blockchain import blocks
+from validator import validate
 
-
-class Block:
-
-    def __init__(self, index, data, previous_hash):
-        self.index = index
-        self.timestamp = str(datetime.now())
-        self.data = data
-        self.previous_hash = previous_hash
-
-        # Calculate hash when block is created
-        self.block_hash = self.calculate_hash()
-
-    def calculate_hash(self):
-
-        block_data = {
-            "index": self.index,
-            "timestamp": self.timestamp,
-            "data": self.data,
-            "previous_hash": self.previous_hash
-        }
-
-        block_string = json.dumps(block_data, sort_keys=True)
-
-        return hashlib.sha256(block_string.encode()).hexdigest()
-
-
-# -----------------------------
-# Blockchain (Temporary Storage)
-# -----------------------------
-
-blocks = []
 
 for i in range(3):
 
@@ -50,39 +19,15 @@ for i in range(3):
     blocks.append(block)
 
 
-# -----------------------------
-# Blockchain Validator
-# -----------------------------
+# Attack Example
+# blocks[1].data = "Hacker changed vote"
+# blocks[1].block_hash = blocks[1].calculate_hash()
+
 
 print("\nChecking Blockchain...\n")
 
-is_valid = True
+validate(blocks)
 
-for i in range(1, len(blocks)):
-
-    current = blocks[i]
-    previous = blocks[i - 1]
-
-    # Check if current block has been modified
-    if current.block_hash != current.calculate_hash():
-        print(f"❌ Block {current.index} has been modified.")
-        is_valid = False
-        break
-
-    # Check if chain connection is broken
-    if current.previous_hash != previous.block_hash:
-        print(f"❌ Chain is broken between Block {previous.index} and Block {current.index}")
-        is_valid = False
-        break
-
-
-if is_valid:
-    print("✅ Blockchain Verified Successfully")
-
-
-# -----------------------------
-# Display Blockchain
-# -----------------------------
 
 print("\n=========== BLOCKCHAIN ===========\n")
 
