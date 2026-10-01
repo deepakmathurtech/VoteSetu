@@ -2,6 +2,8 @@
 
 VoteSetu is an educational voting prototype built with Flask. It demonstrates a browser-based voting workflow with RIDTP-compatible authentication, government-roll eligibility checks, signed ballots, and a blockchain-style public audit trail. The repository includes local demo data and a local roll importer; it does not include an official identity provider, electoral roll, candidate feed, or election-authority service.
 
+For a role-by-role local walkthrough from government-roll import through receipt verification, see [demo.md](demo.md).
+
 ## Why this project exists
 
 VoteSetu demonstrates how a voting system can:
