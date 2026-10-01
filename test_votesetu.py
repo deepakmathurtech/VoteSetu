@@ -177,12 +177,12 @@ def test_government_roll_import_requires_ridtp_link(tmp_path):
 
     assert eligible["decision"] == "eligible"
     assert unlinked["decision"] == "needs_ridtp_link"
-    assert roll.eligible_record("gbnagar-local-2027", "ridtp-demo-alice")["official_voter_id"] == "DEMO-UP-0001"
+    assert roll.eligible_record("gbnagar-local-2027", eligible["ridtp_rid"])["official_voter_id"] == "DEMO-UP-0001"
     assert roll.eligible_record("gbnagar-local-2027", "ridtp-demo-missing") is None
 
     corrected = json.loads(Path("government_demo/inbox/eligible_voter.json").read_text(encoding="utf-8"))
     corrected["eligible"] = False
-    corrected["roll_sequence"] = 2
+    corrected["roll_sequence"] = eligible["roll_sequence"] + 1
     corrected_path = tmp_path / "corrected.json"
     corrected_path.write_text(json.dumps(corrected), encoding="utf-8")
     assert roll.import_file(str(corrected_path))["decision"] == "ineligible"
@@ -205,9 +205,9 @@ def test_government_roll_rejects_stale_record_versions(tmp_path):
     initial_path = tmp_path / "initial.json"
     initial_path.write_text(json.dumps(record), encoding="utf-8")
     assert roll.import_file(str(initial_path))["decision"] == "eligible"
-    first_import = roll.eligible_record("gbnagar-local-2027", "ridtp-demo-alice")
+    first_import = roll.eligible_record("gbnagar-local-2027", record["ridtp_rid"])
     replay = roll.import_file(str(initial_path))
-    replayed_import = roll.eligible_record("gbnagar-local-2027", "ridtp-demo-alice")
+    replayed_import = roll.eligible_record("gbnagar-local-2027", record["ridtp_rid"])
     assert replay["decision"] == "eligible"
     assert replayed_import["imported_at"] == first_import["imported_at"]
 
