@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Admin — VoteSetu{% endblock %}
+{% block content %}
+
+<div class="hero-eyebrow">Election Officials Only</div>
+<h1 data-i18n="adminPanelTitle">Admin panel</h1>
+<p class="subtle" style="max-width:600px;">
+  These actions require the admin key printed in the server console at
+  startup. It is never sent anywhere except as a request header on these
+  two endpoints, and is stored only in your browser's local storage on
+  this device.
+</p>
+
+<div class="card admin-gate">
+  <h2 data-i18n="adminKey">Admin key</h2>
+  <label for="admin-key-input" data-i18n="key">Key</label>
+  <input type="text" id="admin-key-input" placeholder="Paste the key printed in the server console">
+  <button id="save-key-btn" type="button" class="btn-secondary" data-i18n="saveKey">Save key on this device</button>
+  <div id="gate-status" class="status-box"></div>
+</div>
+
+<div id="admin-panels" style="display:none;">
+  <div class="grid-2">
+    <div class="card">
+      <h2 data-i18n="pollAdministration">Poll administration</h2>
+      <p class="subtle">Seals all currently pending, signature-verified votes into a new immutable block.</p>
+      <button id="close-round-btn" type="button" data-i18n="closeRound">Close polling round &amp; mine block</button>
+      <div id="close-status" class="status-box"></div>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="liveSnapshot">Live snapshot</h2>
+      <table>
+        <tr><th>Registered voters</th><td class="mono skeleton skeleton-line" id="s-registered">0</td></tr>
+        <tr><th>Votes cast</th><td class="mono skeleton skeleton-line" id="s-cast">0</td></tr>
+        <tr><th>Blocks mined</th><td class="mono skeleton skeleton-line" id="s-blocks">0</td></tr>
+        <tr><th>Pending (unmined)</th><td class="mono skeleton skeleton-line" id="s-pending">0</td></tr>
+        <tr><th>Ledger integrity</th><td class="mono" id="s-integrity">—</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card danger-zone">
+    <h2 data-i18n="createResetElection">Create / reset election</h2>
+    <p class="subtle">Warning: this replaces the current election entirely, including its blockchain. Existing votes will no longer be reachable through the running app.</p>
+    <label for="election-title" data-i18n="electionTitle">Election title</label>
+    <input type="text" id="election-title" placeholder="e.g. Village Council President 2026">
+    <label for="election-candidates" data-i18n="candidatesOneLine">Candidates (one per line)</label>
+    <textarea id="election-candidates" rows="4" placeholder="Aarav Sharma&#10;Priya Verma&#10;Kabir Singh"></textarea>
+    <label for="election-difficulty" data-i18n="powDifficulty">Proof-of-work difficulty (1-6)</label>
+    <input type="text" id="election-difficulty" value="4">
+    <button id="reset-election-btn" type="button" class="btn-secondary" data-i18n="createResetElection">Create / reset election</button>
+    <div id="reset-status" class="status-box"></div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

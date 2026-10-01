@@ -1,0 +1,9 @@
+{
+  "official_voter_id": "DEMO-UP-0001",
+  "election_id": "gbnagar-local-2027",
+  "decision": "eligible",
+  "reason": "Government eligibility and RIDTP account check passed",
+  "ridtp_rid": "did:rid:person:f94957d734ee1e56",
+  "roll_version": "2027-demo-2",
+  "roll_sequence": 2
+}

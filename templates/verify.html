@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Verify Receipt — VoteSetu{% endblock %}
+{% block content %}
+
+<div class="stepper">
+  <div class="step done"><span class="step-num">1</span><span data-i18n="registerStepLabel">Register</span></div>
+  <div class="step done"><span class="step-num">2</span><span data-i18n="voteStepLabel">Vote</span></div>
+  <div class="step active"><span class="step-num">3</span><span data-i18n="verifyStepLabel">Verify</span></div>
+</div>
+
+<div class="hero-eyebrow">Public Verifiability</div>
+<h1 data-i18n="verifyCounted">Verify your vote was counted</h1>
+<p class="subtle" style="max-width:640px;">
+  This checks your ballot's inclusion using a Merkle proof — a small set of
+  hashes that lets your own browser mathematically confirm your vote is in
+  the ledger, without downloading or trusting anyone else's data.
+</p>
+
+<div class="card">
+  <label for="voter-id-input" data-i18n="voterId">Voter ID</label>
+  <input type="text" id="voter-id-input" placeholder="e.g. 9eed4ddf85579b87">
+  <button id="fetch-btn" type="button" data-i18n="fetchReceipt">Fetch my receipt</button>
+  <div id="status" class="status-box"></div>
+</div>
+
+<div class="card" id="receipt-card" style="display:none;">
+  <h2 data-i18n="yourReceipt">Your receipt</h2>
+  <table>
+    <tr><th>Block #</th><td id="r-block-index" class="mono"></td></tr>
+    <tr><th>Choice</th><td id="r-candidate">Hidden to preserve ballot secrecy</td></tr>
+    <tr><th>Block hash</th><td class="mono" style="word-break:break-all;"><span id="r-block-hash"></span> <button class="copy-btn" type="button" data-copy-target="#r-block-hash">Copy</button></td></tr>
+    <tr><th>Merkle root</th><td class="mono" style="word-break:break-all;"><span id="r-merkle-root"></span> <button class="copy-btn" type="button" data-copy-target="#r-merkle-root">Copy</button></td></tr>
+    <tr><th>Proof length</th><td id="r-proof-length" class="mono"></td></tr>
+  </table>
+  <div class="actions-row" style="margin-top:16px;">
+    <span id="verify-seal" class="seal" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Merkle proof verified
+    </span>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/verify.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}VoteSetu — Blockchain Voting Platform{% endblock %}
+{% block content %}
+
+<div class="hero">
+  <div class="hero-copy">
+    <div class="hero-eyebrow" data-i18n="secureVoting">Blockchain-Based Secure Voting</div>
+    <h1>{{ election.title }}</h1>
+    <p>
+      <span data-i18n="heroDescription">Every ballot is signed on the voter's own device and sealed into a
+      hash-linked, proof-of-work ledger. Anyone can independently verify
+      the count — no single party's word has to be trusted.</span>
+    </p>
+    <div class="actions-row">
+      <a href="{{ url_for('register_page') }}" class="btn btn-accent" data-i18n="registerToVote">Register to vote</a>
+      <a href="{{ url_for('explorer_page') }}" class="btn btn-secondary" data-i18n="viewLedger">View the ledger</a>
+    </div>
+    <p class="subtle" style="margin-top:14px; font-size:0.82rem;"><span data-i18n="electionOfficial">Election official?</span> <a href="{{ url_for('admin_page') }}" data-i18n="adminPanel">Admin panel →</a></p>
+  </div>
+  <div class="hero-stats" id="hero-stats">
+    <div class="stat-block"><div class="stat-value skeleton skeleton-stat" id="stat-registered">0</div><div class="stat-label" data-i18n="registeredVoters">Registered voters</div></div>
+    <div class="stat-block"><div class="stat-value skeleton skeleton-stat" id="stat-cast">0</div><div class="stat-label" data-i18n="votesCast">Votes cast</div></div>
+    <div class="stat-block"><div class="stat-value skeleton skeleton-stat" id="stat-blocks">0</div><div class="stat-label" data-i18n="blocksMined">Blocks mined</div></div>
+    <div class="stat-block"><div class="stat-value skeleton skeleton-stat" id="stat-integrity">&nbsp;</div><div class="stat-label" data-i18n="ledgerIntegrity">Ledger integrity</div></div>
+  </div>
+</div>
+
+<section class="directory" aria-labelledby="open-elections-title">
+  <div class="directory-heading">
+    <div>
+      <div class="hero-eyebrow" data-i18n="openElections">Open elections</div>
+      <h2 id="open-elections-title" data-i18n="findBallot">Find your ballot</h2>
+      <p class="subtle" data-i18n="locationInstruction">Start with your state, then narrow to city and area. Official schedules and electoral rolls always take priority.</p>
+    </div>
+    <a href="{{ url_for('vote_page') }}" class="btn btn-accent" data-i18n="chooseLocation">Choose location</a>
+  </div>
+  <div class="election-directory">
+    {% for item in election_catalog %}
+    <article class="election-item">
+      <div class="election-item-top"><span class="status-dot"></span><span>{{ item.status }}</span></div>
+      <h3>{{ item.title }}</h3>
+      <p>{{ item.level }} · {{ item.location }}</p>
+      <small>{{ item.note }}</small>
+    </article>
+    {% endfor %}
+  </div>
+  <p class="source-note">Information checked against the <a href="https://gbnagar.nic.in/district-election-office/" target="_blank" rel="noreferrer">Gautam Buddha Nagar District Election Office</a> and <a href="https://sec.up.nic.in/site/" target="_blank" rel="noreferrer">Uttar Pradesh State Election Commission</a> on 18 September 2026. No election event was listed on the district portal at the time of checking.</p>
+</section>
+
+<div class="grid-2">
+  <div class="card">
+    <h2 data-i18n="liveResults">Live results</h2>
+    <div id="results-table">
+      <p class="subtle"><span class="loader"></span> Loading…</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 data-i18n="howItWorks">How VoteSetu works</h2>
+    <ol style="color:var(--ink-700); padding-left:18px; margin:0;">
+      <li>Generate a signing key in your browser and register your public key</li>
+      <li>Sign your ballot locally and cast it — the server never sees your key</li>
+      <li>Signed votes are sealed into hash-linked, proof-of-work blocks</li>
+      <li>Verify your own vote's inclusion with a Merkle proof, anytime</li>
+      <li>Anyone can re-verify the entire ledger's integrity independently</li>
+    </ol>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

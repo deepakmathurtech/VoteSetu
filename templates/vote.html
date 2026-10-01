@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Vote — VoteSetu{% endblock %}
+{% block content %}
+
+<div class="stepper">
+  <div class="step done"><span class="step-num">1</span><span data-i18n="registerStepLabel">Register</span></div>
+  <div class="step active"><span class="step-num">2</span><span data-i18n="voteStepLabel">Vote</span></div>
+  <div class="step"><span class="step-num">3</span><span data-i18n="verifyStepLabel">Verify</span></div>
+</div>
+
+<div class="hero-eyebrow" data-i18n="votingStep">Step 2 of 2 — Cast Your Ballot</div>
+<h1>{{ election.title }}</h1>
+<p class="subtle" style="max-width:600px;">
+  Your ballot is signed on your own device with your private key. VoteSetu's
+  server only ever receives the signature — never your key — and checks it
+  against your registered public key before accepting the vote.
+</p>
+
+<div class="card location-card">
+  <div class="location-heading">
+    <div>
+      <div class="hero-eyebrow" data-i18n="ballotFinder">Ballot finder</div>
+      <h2 data-i18n="whereVoting">Where are you voting?</h2>
+    </div>
+    <span class="location-badge">Greater Noida demo</span>
+  </div>
+  <div class="location-grid">
+    <div>
+      <label for="state-select" data-i18n="state">State</label>
+      <select id="state-select"><option value="">Select state</option><option value="uttar-pradesh">Uttar Pradesh</option></select>
+    </div>
+    <div>
+      <label for="city-select" data-i18n="cityDistrict">City / district</label>
+      <select id="city-select" disabled><option value="">Select city or district</option></select>
+    </div>
+    <div>
+      <label for="area-select" data-i18n="area">Area</label>
+      <select id="area-select" disabled><option value="">Select area</option></select>
+    </div>
+  </div>
+  <div id="location-summary" class="status-box info show">Select a state, city and area to load the available ballot.</div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h2 data-i18n="loadCredential">1. Load your credential</h2>
+    <label for="voter-id-input" data-i18n="voterId">Voter ID</label>
+    <input type="text" id="voter-id-input" placeholder="e.g. 9eed4ddf85579b87">
+    <div class="field-hint">Shown on the Register page after you signed up.</div>
+
+    <div class="status-box info show">Your non-exportable voting credential is loaded from this browser's secure storage. No private key file is uploaded.</div>
+
+    <h2 style="margin-top:22px;" data-i18n="chooseCandidate">2. Choose a candidate</h2>
+    <div class="candidate-list is-locked" id="candidate-list">
+      {% for c in election.candidates %}
+      <label class="candidate-option">
+        <input type="radio" name="candidate" value="{{ c }}">
+        <span><strong>{{ c }}</strong><small>{{ candidate_details[c].party }} · {{ candidate_details[c].symbol }}</small><em>{{ candidate_details[c].summary }}</em></span>
+      </label>
+      {% endfor %}
+    </div>
+
+    <button id="cast-btn" type="button" disabled data-i18n="signCast">Sign &amp; cast my vote</button>
+    <div id="status" class="status-box"></div>
+    <div class="actions-row" style="margin-top:12px;">
+      <span class="seal" id="cast-seal" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Ballot signed &amp; recorded
+      </span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>What happens when you click "cast"</h2>
+    <ol style="color:var(--ink-700); padding-left: 18px;">
+      <li>Your browser builds the ballot text: <code>voter_id | candidate | timestamp</code></li>
+      <li>Your browser-held non-exportable key signs locally (RSA-PSS / SHA-256) — the key itself never leaves this browser</li>
+      <li>Only <code>{voter_id, candidate, timestamp, signature}</code> is sent to the server</li>
+      <li>The server verifies the signature against your registered public key before accepting it</li>
+      <li>Once mined into a block, you can fetch a <a href="{{ url_for('verify_page') }}">Merkle receipt</a> proving your vote's inclusion — without revealing anyone else's ballot</li>
+    </ol>
+    <div id="receipt-hint" class="status-box info" style="display:none;"></div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/vote.js') }}"></script>
+{% endblock %}

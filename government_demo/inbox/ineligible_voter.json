@@ -1,0 +1,15 @@
+{
+  "election_id": "gbnagar-local-2027",
+  "official_voter_id": "DEMO-UP-0003",
+  "full_name": "Neha Singh",
+  "state": "Uttar Pradesh",
+  "district": "Gautam Buddha Nagar",
+  "city": "Greater Noida",
+  "area": "Knowledge Park",
+  "constituency": "Greater Noida Civic Ward 1",
+  "ridtp_rid": "ridtp-demo-inactive",
+  "eligible": false,
+  "roll_version": "2027-demo-1",
+  "roll_sequence": 1,
+  "source": "Demo Election Authority"
+}

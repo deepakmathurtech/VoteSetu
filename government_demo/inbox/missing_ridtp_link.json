@@ -1,0 +1,14 @@
+{
+  "election_id": "gbnagar-local-2027",
+  "official_voter_id": "DEMO-UP-0002",
+  "full_name": "Ravi Kumar",
+  "state": "Uttar Pradesh",
+  "district": "Gautam Buddha Nagar",
+  "city": "Greater Noida",
+  "area": "Beta",
+  "constituency": "Greater Noida Civic Ward 1",
+  "eligible": true,
+  "roll_version": "2027-demo-1",
+  "roll_sequence": 1,
+  "source": "Demo Election Authority"
+}

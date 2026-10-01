@@ -1,0 +1,17 @@
+{
+  "ridtp-demo-alice": {
+    "status": "active",
+    "trustBand": "VERIFIED_HIGH",
+    "displayName": "Asha Verma"
+  },
+  "ridtp-demo-inactive": {
+    "status": "suspended",
+    "trustBand": "VERIFIED_HIGH",
+    "displayName": "Inactive Demo Account"
+  },
+  "did:rid:person:f94957d734ee1e56": {
+    "status": "active",
+    "trustBand": "VERIFIED_HIGH",
+    "displayName": "Alex Rivera"
+  }
+}

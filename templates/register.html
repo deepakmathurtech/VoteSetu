@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Register — VoteSetu{% endblock %}
+{% block content %}
+
+<div class="stepper">
+  <div class="step active"><span class="step-num">1</span><span data-i18n="registerStepLabel">Register</span></div>
+  <div class="step"><span class="step-num">2</span><span data-i18n="voteStepLabel">Vote</span></div>
+  <div class="step"><span class="step-num">3</span><span data-i18n="verifyStepLabel">Verify</span></div>
+</div>
+
+<div class="hero-eyebrow" data-i18n="registrationStep">Step 1 of 2 — Voter Registration</div>
+<h1 data-i18n="generateCredential">Generate your voting credential</h1>
+<p class="subtle" style="max-width:600px;" data-i18n="registrationIntro">
+  Your signing key is generated right here in your browser using the
+  Web Crypto API. Only your <strong>public</strong> key is ever sent to
+  VoteSetu's server. Your private key is sealed in this browser and is
+  never downloaded or uploaded.
+</p>
+
+<div class="card auth-card">
+  <div class="auth-heading">
+    <div>
+      <div class="hero-eyebrow" data-i18n="identityCheck">Identity check</div>
+      <h2 data-i18n="signInFirst">Sign in with RIDTP first</h2>
+      <p class="subtle" data-i18n="identityDescription">RIDTP verifies the identity account. VoteSetu then binds your local voting credential to that verified identity.</p>
+    </div>
+    <span id="auth-badge" class="location-badge">Not signed in</span>
+  </div>
+  <div id="login-form" class="login-grid">
+    <div>
+      <label for="login-identifier" data-i18n="usernameEmailPhone">Username, email or phone</label>
+      <input type="text" id="login-identifier" autocomplete="username" placeholder="e.g. alex@example.com">
+    </div>
+    <div>
+      <label for="login-password" data-i18n="ridtpPassword">RIDTP password</label>
+      <input type="password" id="login-password" autocomplete="current-password" placeholder="Enter your RIDTP password">
+    </div>
+    <button id="login-btn" type="button" data-i18n="signInRidtp">Sign in with RIDTP</button>
+  </div>
+  <div id="login-status" class="status-box"></div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h2 data-i18n="yourDetails">1. Your details</h2>
+    <label for="full-name" data-i18n="fullName">Full name</label>
+    <input type="text" id="full-name" placeholder="e.g. Anjali Gupta" data-i18n-placeholder="fullNamePlaceholder" disabled>
+
+    <button id="generate-btn" type="button" disabled data-i18n="generateRegister">Generate key &amp; register</button>
+    <div id="status" class="status-box"></div>
+  </div>
+
+  <div class="card">
+    <h2 data-i18n="yourCredential">2. Your credential</h2>
+    <p class="subtle" data-i18n="credentialStorage">Appears here once generated. Your credential is stored locally in this browser. VoteSetu cannot recover it if this browser's site data is cleared.</p>
+
+    <div id="credential-panel" style="display:none;">
+      <label>Voter ID</label>
+      <div class="copy-row">
+        <div class="key-box mono" id="voter-id-box" style="max-height:none;"></div>
+        <button class="copy-btn" type="button" data-copy-target="#voter-id-box">Copy</button>
+      </div>
+
+      <label>Device credential</label>
+      <div class="actions-row" style="margin-bottom:16px;">
+        <span class="seal" id="registered-seal" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Registered on VoteSetu
+        </span>
+      </div>
+      <p class="subtle">Proceed to the <a href="{{ url_for('vote_page') }}">Vote</a> page in this browser when you're ready to cast your ballot.</p>
+    </div>
+    <div id="credential-locked" class="status-box info show">Sign in with RIDTP to unlock key generation.</div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+{% endblock %}

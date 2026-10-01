@@ -1,0 +1,15 @@
+{
+  "election_id": "gbnagar-local-2027",
+  "official_voter_id": "DEMO-UP-0001",
+  "full_name": "Asha Verma",
+  "state": "Uttar Pradesh",
+  "district": "Gautam Buddha Nagar",
+  "city": "Greater Noida",
+  "area": "Alpha",
+  "constituency": "Greater Noida Civic Ward 1",
+  "ridtp_rid": "did:rid:person:f94957d734ee1e56",
+  "eligible": true,
+  "roll_version": "2027-demo-2",
+  "roll_sequence": 2,
+  "source": "Demo Election Authority"
+}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Ledger Explorer — VoteSetu{% endblock %}
+{% block content %}
+
+<div class="hero-eyebrow">Public Ledger</div>
+<h1 data-i18n="blockExplorer">Block explorer</h1>
+<p class="subtle" style="max-width:640px;">
+  Every mined block, in order, exactly as stored. Chain integrity is
+  re-verified in your browser too — not just trusted from the server.
+</p>
+
+<div class="card">
+  <div class="actions-row" style="justify-content:space-between;">
+    <div id="chain-status" class="tag">checking integrity…</div>
+    <button id="refresh-btn" type="button" class="btn-secondary" data-i18n="refresh">Refresh</button>
+  </div>
+</div>
+
+<div class="block-chain" id="block-chain"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/explorer.js') }}"></script>
+{% endblock %}
